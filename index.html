@@ -1,54 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Simple Maps</title>
+  <title>Dynamic Map</title>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvP3E8ICYEQYe5EY--HT4DFcorGgppsxs&callback=initMap" async defer></script>
   <script>
+    let map;
+
     function initMap() {
-      var map = new google.maps.Map(document.getElementById('map'), {
+      map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
-        center: {lat: 37.75301667, lng: -122.41418}
+        center: {lat: -34.397, lng: 150.644} // Default center
       });
-      new google.maps.Marker({position: {lat: 37.75301667, lng: -122.41418}, map: map});
-new google.maps.Marker({position: {lat: 37.75301667, lng: -122.41418}, map: map});
-new google.maps.Marker({position: {lat: 37.75301667, lng: -122.41418}, map: map});
-new google.maps.Marker({position: {lat: 37.75525056, lng: -122.41432389}, map: map});
-new google.maps.Marker({position: {lat: 37.75429639, lng: -122.41423194}, map: map});
-new google.maps.Marker({position: {lat: 37.75336083, lng: -122.41417417}, map: map});
-new google.maps.Marker({position: {lat: 37.75301667, lng: -122.41418}, map: map});
-new google.maps.Marker({position: {lat: 37.75525056, lng: -122.41432389}, map: map});
-new google.maps.Marker({position: {lat: 37.75429639, lng: -122.41423194}, map: map});
-new google.maps.Marker({position: {lat: 37.75336083, lng: -122.41417417}, map: map});
-new google.maps.Marker({position: {lat: 37.75723694, lng: -122.41453361}, map: map});
-new google.maps.Marker({position: {lat: 37.75628722, lng: -122.41441806}, map: map});
-new google.maps.Marker({position: {lat: 37.75533972, lng: -122.4143325}, map: map});
-new google.maps.Marker({position: {lat: 37.75723694, lng: -122.41453361}, map: map});
-new google.maps.Marker({position: {lat: 37.75628722, lng: -122.41441806}, map: map});
-new google.maps.Marker({position: {lat: 37.75533972, lng: -122.4143325}, map: map});
-new google.maps.Marker({position: {lat: 37.75886389, lng: -122.41466667}, map: map});
-new google.maps.Marker({position: {lat: 37.75789806, lng: -122.41459}, map: map});
-new google.maps.Marker({position: {lat: 37.75886389, lng: -122.41466667}, map: map});
-new google.maps.Marker({position: {lat: 37.75789806, lng: -122.41459}, map: map});
-new google.maps.Marker({position: {lat: 37.75923778, lng: -122.41472361}, map: map});
-new google.maps.Marker({position: {lat: 37.75923778, lng: -122.41472361}, map: map});
-new google.maps.Marker({position: {lat: 37.76204278, lng: -122.41495444}, map: map});
-new google.maps.Marker({position: {lat: 37.761065, lng: -122.41487556}, map: map});
-new google.maps.Marker({position: {lat: 37.76015583, lng: -122.41477583}, map: map});
-new google.maps.Marker({position: {lat: 37.75923778, lng: -122.41472361}, map: map});
-new google.maps.Marker({position: {lat: 37.76204278, lng: -122.41495444}, map: map});
-new google.maps.Marker({position: {lat: 37.761065, lng: -122.41487556}, map: map});
-new google.maps.Marker({position: {lat: 37.76015583, lng: -122.41477583}, map: map});
-new google.maps.Marker({position: {lat: 37.75923778, lng: -122.41472361}, map: map});
-new google.maps.Marker({position: {lat: 37.76365194, lng: -122.41512917}, map: map});
-new google.maps.Marker({position: {lat: 37.76267083, lng: -122.41503861}, map: map});
-new google.maps.Marker({position: {lat: 37.76365194, lng: -122.41512917}, map: map});
-new google.maps.Marker({position: {lat: 37.76267083, lng: -122.41503861}, map: map});
-new google.maps.Marker({position: {lat: 37.76546889, lng: -122.415315}, map: map});
-new google.maps.Marker({position: {lat: 37.7645375, lng: -122.41524444}, map: map});
-new google.maps.Marker({position: {lat: 37.76546889, lng: -122.415315}, map: map});
-new google.maps.Marker({position: {lat: 37.7645375, lng: -122.41524444}, map: map});
-new google.maps.Marker({position: {lat: 37.76620694, lng: -122.41537472}, map: map});
-new google.maps.Marker({position: {lat: 37.76620694, lng: -122.41537472}, map: map});
+      fetchLocations();
+    }
+
+    function fetchLocations() {
+      fetch('https://n8n2.ajddigital.com/webhook/maplocations')
+        .then(response => response.json())
+        .then(data => {
+          data.locations.forEach(loc => {
+            new google.maps.Marker({
+              position: loc,
+              map: map
+            });
+          });
+        });
     }
   </script>
 </head>
