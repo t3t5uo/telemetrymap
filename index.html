@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Map with Detailed Info</title>
+  <title>Map with Colored Markers</title>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvP3E8ICYEQYe5EY--HT4DFcorGgppsxs&callback=initMap" async defer></script>
   <script>
     function initMap() {
@@ -15,7 +15,8 @@
       locations.forEach(function(location) {
         var marker = new google.maps.Marker({
           position: location,
-          map: map
+          map: map,
+          icon: getMarkerIcon(location.origin) // Set marker icon based on origin
         });
 
         var infowindow = new google.maps.InfoWindow({
