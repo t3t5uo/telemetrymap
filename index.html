@@ -2,33 +2,34 @@
 <html>
 <head>
   <title>Dynamic Map</title>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvP3E8ICYEQYe5EY--HT4DFcorGgppsxs&callback=initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvP3E8ICYEQYe5EY--HT4DFcorGgppsxs"></script>
   <script>
-    let map;
-
-    function initMap() {
-      map = new google.maps.Map(document.getElementById('map'), {
+    function initMap(locations) {
+      let mapCenter = locations.length > 0 ? locations[0] : {lat: -34.397, lng: 150.644};
+      let map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
-        center: {lat: -34.397, lng: 150.644} // Default center
+        center: mapCenter
       });
-      fetchLocations();
+
+      locations.forEach(loc => {
+        new google.maps.Marker({
+          position: loc,
+          map: map
+        });
+      });
     }
 
-    function fetchLocations() {
+    function fetchLocationsAndInitMap() {
       fetch('https://n8n2.ajddigital.com/webhook/maplocations')
         .then(response => response.json())
         .then(data => {
-          data.locations.forEach(loc => {
-            new google.maps.Marker({
-              position: loc,
-              map: map
-            });
-          });
-        });
+          initMap(data.locations);
+        })
+        .catch(error => console.error('Error:', error));
     }
   </script>
 </head>
-<body>
+<body onload="fetchLocationsAndInitMap()">
   <div id="map" style="height: 500px; width: 100%;"></div>
 </body>
 </html>
